@@ -1,11 +1,12 @@
 import { useSelector } from 'react-redux';
-import { getContacts, getFilter } from 'redux/selectors';
-import {List} from './ListContact.styled'
+
+import { selectContactByName, selectFilter } from 'redux/selectors';
+import { List } from './ListContact.styled';
 import ElementContact from '../ElementContact';
 
 const ListContact = () => {
-  const contacts = useSelector(getContacts);
-  const filter = useSelector(getFilter);
+  const contacts = useSelector(selectContactByName);
+  const filter = useSelector(selectFilter);
 
   const makeFiltredContacts = () => {
     return contacts.filter(({ name }) => {
@@ -14,12 +15,12 @@ const ListContact = () => {
   };
 
   const makeList = array => {
-    return array.map(({ id, name, number }) => {
+    return array.map(({ id, name, phone }) => {
       return (
         <ElementContact
           key={id}
           contactName={name}
-          contactNumber={number}
+          contactNumber={phone}
           contactId={id}
         />
       );

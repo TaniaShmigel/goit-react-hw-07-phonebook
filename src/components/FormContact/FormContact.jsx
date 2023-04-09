@@ -1,8 +1,9 @@
 import { useSelector, useDispatch } from 'react-redux';
-import { addContact } from 'redux/contactsSlice';
-import { getContacts } from 'redux/selectors';
+
+import { selectContacts } from 'redux/selectors';
 import { Formik } from 'formik';
 import { object, string } from 'yup';
+import { addContact } from 'redux/operations';
 
 import {
   FormikForm,
@@ -13,12 +14,12 @@ import {
 } from './FormContact.styled';
 
 const FormContact = () => {
-  const contacts = useSelector(getContacts);
+  const contacts = useSelector(selectContacts);
   const dispatch = useDispatch();
 
   const initialValues = {
     name: '',
-    number: '',
+    phone: '',
   };
 
   const FormScheme = object({
@@ -29,7 +30,7 @@ const FormContact = () => {
         excludeEmptyString: true,
       })
       .required('Required'),
-    number: string()
+    phone: string()
       .matches(
         /\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}/,
         {
@@ -52,7 +53,7 @@ const FormContact = () => {
     dispatch(addContact(values));
     resetForm({
       name: '',
-      number: '',
+      phone: '',
     });
   };
 
@@ -72,8 +73,8 @@ const FormContact = () => {
         </Label>
         <Label>
           Number
-          <Input type="tel" name="number" />
-          <ErrorText name="number" component="p" />
+          <Input type="tel" name="phone" />
+          <ErrorText name="phone" component="p" />
         </Label>
         <FormBtn type="submit">Add contact</FormBtn>
       </FormikForm>
